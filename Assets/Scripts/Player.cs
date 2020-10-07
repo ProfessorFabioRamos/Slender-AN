@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Player : MonoBehaviour
 
     public GameObject grabShotgunPanel;
     public GameObject shotgun;
+
+    [SerializeField]
+    private int lives = 3;
 
     //private bool canGrab=false;
 
@@ -27,6 +31,13 @@ public class Player : MonoBehaviour
            RenderSettings.fog = false; 
     }
 
+    public void TakeDamage(){
+        lives--;
+        if(lives <=0){
+            SceneManager.LoadScene(2);
+        }
+    }
+    
     void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Collectible"){
             //objects = objects+1;

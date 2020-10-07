@@ -12,6 +12,8 @@ public class SlenderBehaviour : MonoBehaviour
     public Image noiseEffect;
     public float dangerDistance = 5.0f;
     private float distance = 0;
+    public GameObject explosion;
+    private bool canDamage = true;
 
     // Start is called before the first frame update
     void Start()
@@ -33,9 +35,18 @@ public class SlenderBehaviour : MonoBehaviour
         else    
             agent.speed = 2;
 
-        if(distance <= dangerDistance)
+        if(distance <= dangerDistance && canDamage){
             noiseEffect.enabled = true;
-        else
+            playerPosition.GetComponent<Player>().TakeDamage();
+            canDamage = false;
+        }
+        else if(distance > dangerDistance){
             noiseEffect.enabled = false;
+            canDamage = true;
+        }         
+    }
+
+    void OnDestroy(){
+        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 }
